@@ -1,0 +1,9 @@
+vendor
+.git
+.idea
+Dockerfile
+Makefile
+README.MD
+.env
+.dockerignore
+.env.example
