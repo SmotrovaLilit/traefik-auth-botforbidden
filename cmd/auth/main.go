@@ -3,7 +3,6 @@ package main
 import (
 	"strconv"
 	"fmt"
-	"wdh-auth/utils"
 	"os"
 	"os/signal"
 	"syscall"
@@ -13,6 +12,8 @@ import (
 	"golang.org/x/net/context"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+	"github.com/SmotrovaLilit/botdetect"
+	"traefik-auth-botforbidden/utils"
 )
 
 var logger = logrus.New()
@@ -79,7 +80,7 @@ func loadPortNumber() (int, error) {
 }
 
 func handlerCheckBot(w http.ResponseWriter, r *http.Request) {
-	detect := go_botdetect.NewBotDetect(r, nil)
+	detect := botdetect.NewBotDetect(r, nil)
 
 	if detect.IsBot() {
 		http.Error(w, "is bot", http.StatusUnauthorized)

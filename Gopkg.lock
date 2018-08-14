@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/SmotrovaLilit/botdetect"
+  packages = ["."]
+  revision = "de79c221a18c8b0dda72d98bbbfd2cc7086d84a8"
+  version = "1.1.0"
+
+[[projects]]
   name = "github.com/joho/godotenv"
   packages = ["."]
   revision = "a79fa1e548e2c689c241d10173efd51e5d689d5b"
@@ -37,6 +43,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d67e44f3ce91ba333f30a86f9383381a25d9005b9528419c4fc4daa4559e6bf5"
+  inputs-digest = "34c3533c1c871aa01b02a24f2629fe21c440d6ff77ccdc1a1217787933622371"
   solver-name = "gps-cdcl"
   solver-version = 1
