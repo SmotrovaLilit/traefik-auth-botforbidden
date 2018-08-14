@@ -1,11 +1,13 @@
-package main
+package traefik_auth_botforbidden
 
 import (
 	"testing"
 	"net/http"
-	"net/http/httptest"
 )
 
+const (
+	serviceUrl = "http://localhost:8000"
+)
 //список взят состраниц: https://yandex.ru/support/webmaster/robot-workings/check-yandex-robots.html#robot-in-logs
 // и https://support.google.com/webmasters/answer/1061943?hl=ru
 var botUserAgents = []string{
@@ -61,25 +63,24 @@ var botUserAgents = []string{
 }
 
 func TestIfBotRequest(t *testing.T) {
+	client := http.DefaultClient
 	for _, userAgent := range botUserAgents {
 		for _, typeR := range []string{"POST", "GET"} {
 			t.Run(userAgent, func(t *testing.T) {
-				request, err := http.NewRequest(typeR, "/", nil)
+				request, err := http.NewRequest(typeR, serviceUrl, nil)
 				if err != nil {
 					t.Error(err)
 					return
 				}
 				request.Header.Add("User-Agent", userAgent)
-				rr := httptest.NewRecorder()
-				handler := http.HandlerFunc(handlerCheckBot)
-				handler.ServeHTTP(rr, request)
+				r, err := client.Do(request)
 				if err != nil {
 					t.Error(err)
 					return
 				}
 
-				if rr.Code != http.StatusForbidden {
-					t.Errorf("type request: %s, got status code %d, want %d", typeR, rr.Code, http.StatusForbidden)
+				if r.StatusCode != http.StatusForbidden {
+					t.Errorf("type request: %s, got status code %d, want %d", typeR, r.StatusCode, http.StatusForbidden)
 				}
 			})
 		}
@@ -99,25 +100,25 @@ var notBotUserAgents = []string{
 }
 
 func TestIfNotBotRequest(t *testing.T) {
+	client := http.DefaultClient
 	for _, userAgent := range notBotUserAgents {
 		for _, typeR := range []string{"POST", "GET"} {
 			t.Run(userAgent, func(t *testing.T) {
-				request, err := http.NewRequest(typeR, "/", nil)
+				request, err := http.NewRequest(typeR, serviceUrl, nil)
 				if err != nil {
 					t.Error(err)
 					return
 				}
 				request.Header.Add("User-Agent", userAgent)
-				rr := httptest.NewRecorder()
-				handler := http.HandlerFunc(handlerCheckBot)
-				handler.ServeHTTP(rr, request)
+
+				r, err := client.Do(request)
 				if err != nil {
 					t.Error(err)
 					return
 				}
 
-				if rr.Code != http.StatusOK {
-					t.Errorf("type request: %s, got status code %d, want %d", typeR, rr.Code, http.StatusOK)
+				if r.StatusCode != http.StatusOK {
+					t.Errorf("type request: %s, got status code %d, want %d", typeR, r.StatusCode, http.StatusOK)
 				}
 			})
 		}

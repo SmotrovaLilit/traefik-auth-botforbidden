@@ -1,0 +1,22 @@
+sudo: required
+
+language: go
+
+go:
+  - "1.10"
+
+env:
+  global:
+    - IMAGE=smotrovalilit/traefik-auth-botforbidden
+
+services:
+  - docker
+
+before_install:
+  - docker build -t "$IMAGE" .
+  - docker inspect "$IMAGE"
+  - docker run -d --rm -p8000:80 "$IMAGE"
+  - docker images
+
+script:
+- go test -v ./...

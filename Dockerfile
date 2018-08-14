@@ -1,7 +1,7 @@
 # build stage
 FROM golang:1.10 as build-env
 
-WORKDIR /go/src/traefik-auth-botforbidden
+WORKDIR /go/src/github.com/SmotrovaLilit/traefik-auth-botforbidden
 
 RUN go get -u github.com/golang/dep/cmd/dep
 
@@ -10,7 +10,7 @@ RUN dep ensure -vendor-only
 
 COPY . .
 
-RUN cd /go/src/traefik-auth-botforbidden/cmd/auth && CGO_ENABLED=0 GOOS=linux go build -a -o ../../main
+RUN cd /go/src/github.com/SmotrovaLilit/traefik-auth-botforbidden/cmd/auth && CGO_ENABLED=0 GOOS=linux go build -a -o ../../main
 
 # final stage
 FROM alpine:latest
@@ -22,8 +22,8 @@ LABEL maintainer="Smotrova Lilit <lilit2990@gmail.com>"
 WORKDIR /app
 EXPOSE 80
 
-COPY --from=build-env /go/src/traefik-auth-botforbidden/main .
-COPY --from=build-env /go/src/traefik-auth-botforbidden/entrypoint.sh .
+COPY --from=build-env /go/src/github.com/SmotrovaLilit/traefik-auth-botforbidden/main .
+COPY --from=build-env /go/src/github.com/SmotrovaLilit/traefik-auth-botforbidden/entrypoint.sh .
 
 RUN chmod -R 755 /app/entrypoint.sh
 

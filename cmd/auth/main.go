@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"github.com/SmotrovaLilit/botdetect"
-	"traefik-auth-botforbidden/utils"
+	"github.com/SmotrovaLilit/traefik-auth-botforbidden/utils"
 )
 
 var logger = logrus.New()
@@ -83,7 +83,7 @@ func handlerCheckBot(w http.ResponseWriter, r *http.Request) {
 	detect := botdetect.NewBotDetect(r, nil)
 
 	if detect.IsBot() {
-		http.Error(w, "is bot", http.StatusUnauthorized)
+		http.Error(w, "is bot", http.StatusForbidden)
 		return
 	}
 }

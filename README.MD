@@ -1,11 +1,12 @@
 # Closing requests from bots
+[![Build Status](https://travis-ci.org/SmotrovaLilit/traefik-auth-botforbidden.svg?branch=master)](https://travis-ci.org/SmotrovaLilit/traefik-auth-botforbidden)
 
 If request from bot wil return status 403 forbidden
 
 ## Running container
 
 ```
-docker run -p8000:80 smotrovalilit/traefik-auth-botforbidden
+docker run -p8000:80 smotrovalilit/traefik-auth-botforbidden -d
 ```
 
 ### In Docker-compose
